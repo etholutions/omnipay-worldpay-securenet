@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\WorldPay\Message;
+namespace Omnipay\Securenet\Message;
 
 use Omnipay\Common\Exception\InvalidResponseException;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\SecureNet;
+namespace Omnipay\Securenet;
 
 use Omnipay\Common\AbstractGateway;
 
@@ -13,7 +13,7 @@ class Gateway extends AbstractGateway
 {
     public function getName()
     {
-        return 'SecureNet';
+        return 'Securenet';
     }
 
     public function getDefaultParameters()
@@ -187,11 +187,11 @@ class Gateway extends AbstractGateway
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SecureNet\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Securenet\Message\PurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SecureNet\Message\CompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Securenet\Message\CompletePurchaseRequest', $parameters);
     }
 }

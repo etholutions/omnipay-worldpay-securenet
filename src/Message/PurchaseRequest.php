@@ -1,11 +1,11 @@
 <?php
 
-namespace Omnipay\WorldPay\Message;
+namespace Omnipay\Securenet\Message;
 
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
- * WorldPay Purchase Request
+ * Securenet Purchase Request
  */
 class PurchaseRequest extends AbstractRequest
 {
