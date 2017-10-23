@@ -2,6 +2,6 @@
     "name": "sistasasi/omnipay-worldpay-securenet",
     "description": "This is a driver to use Securenet Payment systems of Worldpay with Omnipay package.",
     "require": {
-        "php": "^7.1",
+        "php": "^7.1"
     }
 }
