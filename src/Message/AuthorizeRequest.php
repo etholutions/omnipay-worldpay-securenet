@@ -1,5 +1,5 @@
 <?php
-namespace Omnipay\WorldPay\Securenet\Message;
+namespace Omnipay\WorldPaySecurenet\Message;
 /**
  * WorldPay Purchase Request
  */
