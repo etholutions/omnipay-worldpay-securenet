@@ -1,197 +1,204 @@
 <?php
 
-namespace Omnipay\Securenet;
+namespace Omnipay\WorldPay\Securenet;
 
+use Http\Adapter\Guzzle6\Client;
 use Omnipay\Common\AbstractGateway;
 
 /**
- * WorldPay SecureNet Gateway
+ * WorldPay Gateway
  *
- * @link https://www.worldpay.com/us/developers/apidocs/getstarted.html
+ * ### Dashboard
+ *
+ * For test payments you should be given a Login URL which will be
+ * https://gwapi.demo.securenet.com/api/Payments/(Charge/Refund/Authorize/Capture)
+ *
+ * ... and some website credentials.  These will be:
+ *
+ * * SKEY
+ * * SNID
+ * * DEVELOPER_ID
+ * * VERSION
+ *
+ * Secure Key - You can obtain the Secure Key by signing into the Virtual Terminal with the login credentials that you were emailed to you during the sign-up process. You will then need to navigate to Settings and click on the Key Management link.
+ * 
+ * Public Key - This is only used if you are going to make tokenization calls. It too can be obtained in your Virtual Terminal. Note that although they sound similar, the Public Key and Secure Key are two separate pieces of data used for different purposes.
+ *
+ * @link http://www.worldpay.com/us/developers/apidocs/getstarted.html
  */
 class Gateway extends AbstractGateway
 {
+    /**
+     * Name of the gateway
+     *
+     * @return string
+     */
     public function getName()
     {
-        return 'Securenet';
+        return 'WorldPay Securenet';
     }
 
+    /**
+     * Setup the default parameters
+     *
+     * @return string[]
+     */
     public function getDefaultParameters()
     {
-       return array(
+        return array(
             'snid' => '',
             'skey' => '',
-            'authId' => '',
-            'installationId' => '',
-            'accountId' => '',
-            'secretWord' => '',
-            'callbackPassword' => '',
-            'testMode' => false,
-            'noLanguageMenu' => false,
-            'fixContact' => false,
-            'hideContact' => false,
-            'hideCurrency' => false,
-            'signatureFields' => 'snid:skey',
+            'developerApplication' => [],
         );
     }
 
-    public function getReturnUrl()
-    {
-        return $this->getParameter('returnUrl');
-    }
-
-    public function setReturnUrl($value)
-    {
-        return $this->setParameter('returnUrl', $value);
-    }
-
-    public function getAuthId()
-    {
-        return $this->getParameter('authId');
-    }
-
-    public function setAuthId($value)
-    {
-        return $this->setParameter('authId', $value);
-    }
-
-    public function getSkey()
+    /**
+     * Get the stored service key
+     *
+     * @return string
+     */
+    public function getSKey()
     {
         return $this->getParameter('skey');
     }
 
-    public function setSkey($value)
+    /**
+     * Set the stored service key
+     *
+     * @param string $value  Service key to store
+     */
+    public function setSKey($value)
     {
         return $this->setParameter('skey', $value);
     }
 
-    public function getSnid()
+    /**
+     * Get the stored Sn ID
+     *
+     * @return string
+     */
+    public function getSnId()
     {
         return $this->getParameter('snid');
     }
 
-    public function setSnid($value)
+    /**
+     * Set the stored Sn ID
+     *
+     * @param string $value  Merchant ID to store
+     */
+    public function setSnId($value)
     {
         return $this->setParameter('snid', $value);
     }
 
-    public function getSignatureFields()
-    {
-        return $this->getParameter('signatureFields');
-    }
-
-    public function setSignatureFields($value)
-    {
-        return $this->setParameter('signatureFields', $value);
-    }
-
-    public function getInstallationId()
-    {
-        return $this->getParameter('installationId');
-    }
-
-    public function setInstallationId($value)
-    {
-        return $this->setParameter('installationId', $value);
-    }
-
-    public function getAccountId()
-    {
-        return $this->getParameter('accountId');
-    }
-
-    public function setAccountId($value)
-    {
-        return $this->setParameter('accountId', $value);
-    }
-
-    public function getSecretWord()
-    {
-        return $this->getParameter('secretWord');
-    }
-
-    public function setSecretWord($value)
-    {
-        return $this->setParameter('secretWord', $value);
-    }
-
-    public function getCallbackPassword()
-    {
-        return $this->getParameter('callbackPassword');
-    }
-
-    public function setCallbackPassword($value)
-    {
-        return $this->setParameter('callbackPassword', $value);
+    /**
+     * Gets the Developer ID
+     * @return String
+     */
+    public function getDeveloperId(){
+        $devApp = $this->getParameter('developerApplication');
+        if(isset($devApp['developerId'])){
+            return $devApp['developerId'];
+        }
+        return null;
     }
 
     /**
-     * If true, hides WorldPay's language selection menu.
-     *
-     * @param boolean
+     * Sets the Developer ID
+     * @params String
      */
-    public function getNoLanguageMenu()
-    {
-        return $this->getParameter('noLanguageMenu');
-    }
-
-    public function setNoLanguageMenu($value)
-    {
-        return $this->setParameter('noLanguageMenu', $value);
+    public function setDeveloperId($value){
+        $existing = $this->getParameter('developerApplication');
+        if(!$existing){
+            $existing = [];
+        }
+        $existing['developerId'] = $value;
+        return $this->setParameter('developerApplication', $existing);
     }
 
     /**
-     * If true, prevents editing of address details by user.
-     *
-     * @param boolean
+     * Gets the Developer Version
+     * @return String
      */
-    public function getFixContact()
-    {
-        return $this->getParameter('fixContact');
-    }
-
-    public function setFixContact($value)
-    {
-        return $this->setParameter('fixContact', $value);
+    public function getDeveloperVersion(){
+        $devApp = $this->getParameter('developerApplication');
+        if(isset($devApp['version'])){
+            return $devApp['version'];
+        }
+        return null;
     }
 
     /**
-     * If true, hides address details from user.
-     *
-     * @param boolean
+     * Sets the Developer Version
+     * @params String
      */
-    public function getHideContact()
-    {
-        return $this->getParameter('hideContact');
-    }
-
-    public function setHideContact($value)
-    {
-        return $this->setParameter('hideContact', $value);
+    public function setDeveloperVersion($value){
+        $existing = $this->getParameter('developerApplication');
+        if(!$existing){
+            $existing = [];
+        }
+        $existing['version'] = $value;
+        return $this->setParameter('developerApplication', $existing);
     }
 
     /**
-     * If true, hides currency options from user.
+     * Create purchase request
      *
-     * @param boolean
+     * @param array $parameters
+     *
+     * @return \Omnipay\WorldPay\Securenet\Message\PurchaseRequest
      */
-    public function getHideCurrency()
-    {
-        return $this->getParameter('hideCurrency');
-    }
-
-    public function setHideCurrency($value)
-    {
-        return $this->setParameter('hideCurrency', $value);
-    }
-
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Securenet\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\WorldPay\Securenet\Message\PurchaseRequest', $parameters);
     }
 
-    public function completePurchase(array $parameters = array())
+    /**
+     * Create authorize request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\WorldPay\Securenet\Message\AuthorizeRequest
+     */
+    public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Securenet\Message\CompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\WorldPay\Securenet\Message\AuthorizeRequest', $parameters);
+    }
+
+    /**
+     * Create refund request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\WorldPay\Securenet\Message\RefundRequest
+     */
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\WorldPay\Securenet\Message\RefundRequest', $parameters);
+    }
+
+    /**
+     * Create capture request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\WorldPay\Securenet\Message\CaptureRequest
+     */
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\WorldPay\Securenet\Message\CaptureRequest', $parameters);
+    }
+
+    protected function getDefaultHttpClient()
+    {
+        $guzzleClient = Client::createWithConfig([
+            'curl.options' => [
+                CURLOPT_SSLVERSION => 6
+            ]
+        ]);
+
+
+        return new \Omnipay\Common\Http\Client($guzzleClient);
     }
 }

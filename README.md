@@ -1,1 +1,1 @@
-# omnipay-securenet
+# omnipay-worldpay-securenet
