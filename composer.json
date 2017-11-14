@@ -1,8 +1,12 @@
 {
     "name": "sistasasi/omnipay-worldpay-securenet",
     "description": "This is a driver to use Securenet Payment systems of Worldpay with Omnipay package.",
-    
+    "keywords": ["framework", "laravel", "omnipay", "securenet", "omnipay securenet", "worldpay", "omnipay worldpay"],
+    "license": "MIT",
+    "type": "project",
     "require": {
-        "php": "^7.1"
+        "php": "7.1.x",
+        "symfony/event-dispatcher": "^2.8",
+        "omnipay/common": "^2.5"
     }
 }
