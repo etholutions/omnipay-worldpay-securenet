@@ -1,5 +1,5 @@
 <?php
-namespace Omnipay\WorldPaySecurenet\Message;
+namespace Omnipay\Worldpaysecurenet\Message;
 use Guzzle\Http\Message\Response as HttpResponse;
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Omnipay\WorldPaySecurenet;
+namespace Omnipay\Worldpaysecurenet;
 
 use Http\Adapter\Guzzle6\Client;
 use Omnipay\Common\AbstractGateway;
 
 /**
- * WorldPay Gateway
+ * Worldpaysecurenet Gateway
  *
  * ### Dashboard
  *
@@ -35,7 +35,7 @@ class Gateway extends AbstractGateway
      */
     public function getName()
     {
-        return 'WorldPay Securenet';
+        return 'Worldpaysecurenet';
     }
 
     /**
@@ -147,11 +147,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $parameters
      *
-     * @return \Omnipay\WorldPay\Securenet\Message\PurchaseRequest
+     * @return \Omnipay\Worldpaysecurenet\Message\PurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WorldPaySecurenet\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\PurchaseRequest', $parameters);
     }
 
     /**
@@ -159,11 +159,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $parameters
      *
-     * @return \Omnipay\WorldPay\Securenet\Message\AuthorizeRequest
+     * @return \Omnipay\Worldpaysecurenet\Message\AuthorizeRequest
      */
     public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WorldPaySecurenet\Message\AuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\AuthorizeRequest', $parameters);
     }
 
     /**
@@ -171,11 +171,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $parameters
      *
-     * @return \Omnipay\WorldPay\Securenet\Message\RefundRequest
+     * @return \Omnipay\Worldpaysecurenet\Message\RefundRequest
      */
     public function refund(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WorldPaySecurenet\Message\RefundRequest', $parameters);
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\RefundRequest', $parameters);
     }
 
     /**
@@ -183,11 +183,11 @@ class Gateway extends AbstractGateway
      *
      * @param array $parameters
      *
-     * @return \Omnipay\WorldPay\Securenet\Message\CaptureRequest
+     * @return \Omnipay\Worldpaysecurenet\Message\CaptureRequest
      */
     public function capture(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WorldPaySecurenet\Message\CaptureRequest', $parameters);
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\CaptureRequest', $parameters);
     }
 
     protected function getDefaultHttpClient()
