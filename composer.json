@@ -8,5 +8,11 @@
         "php": "7.1.x",
         "symfony/event-dispatcher": "^2.8",
         "omnipay/common": "^2.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    },
+    "autoload": {
+        "psr-4": { "Omnipay\\Worldpaysecurenet\\" : "src/" }
     }
 }
