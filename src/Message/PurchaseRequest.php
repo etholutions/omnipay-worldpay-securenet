@@ -21,7 +21,7 @@ class PurchaseRequest extends AbstractRequest
             $data['card'] = array(
                 'number' => $card->getNumber(),
                 'cvv' => $card->getCvv(), 
-                "expirationDate" => ->getExpiryDate('m/Y'), 
+                "expirationDate" => $card->getExpiryDate('m/Y'), 
                 "address" => array(
                     "line1" => $card->getBillingAddress1().' '.$card->getBillingAddress2(),
                     "city" => $card->getBillingCity(),
@@ -30,7 +30,7 @@ class PurchaseRequest extends AbstractRequest
                 ),
                 "firstName" => $card->getFirstName(),
                 "lastName" => $card->getLastName()
-            ),
+            );
         }
         
         return array_merge($this->getBaseData(), $data);
