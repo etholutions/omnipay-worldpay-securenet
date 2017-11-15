@@ -1,5 +1,5 @@
 <?php
-namespace Omnipay\WorldPaySecurenet\Message;
+namespace Omnipay\Worldpaysecurenet\Message;
 use Guzzle\Http\Message\Response as HttpResponse;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
@@ -116,7 +116,7 @@ abstract class AbstractRequest extends AbstractRequest
      */
     public function getResponseClassName()
     {
-        return '\Omnipay\WorldPaySecurenet\Message\Response';
+        return '\Omnipay\Worldpaysecurenet\Message\Response';
     }
     /**
      * Send the request to the API then build the response object
