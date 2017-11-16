@@ -197,10 +197,10 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
 
         $authId = "Basic ".base64_encode($this->getSnId().':'.$this->getSKey());
         $httpRequest = $httpRequest
-            ->withHeader('Authorization', $authId)
-            ->withHeader('Content-type', 'application/json')
-            ->withHeader('Accept', 'application/json');
-        $httpResponse = $this->httpClient->sendRequest($httpRequest);
+            ->setHeader('Authorization', $authId)
+            ->setHeader('Content-type', 'application/json')
+            ->setHeader('Accept', 'application/json');
+        $httpResponse = $httpRequest->send();
         return $httpResponse;
     }
     /**

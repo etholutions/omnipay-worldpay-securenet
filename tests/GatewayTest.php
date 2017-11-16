@@ -17,27 +17,31 @@ class GatewayTest extends PHPUnit_Framework_TestCase
         $this->gateway->initialize(array(
             'testMode' => true,
         ));
-        //Fill these details to test
-        $this->gateway->setSKey('...');
-        $this->gateway->setSnId('...');
-        
+        $this->gateway->setSKey('');
+        $this->gateway->setSnId('');
         $this->gateway->setDeveloperApplication([
             'developerId' => '12345678',
             'version' => '1.2'
         ]);
+
+        $authId = "Basic ".base64_encode($this->gateway->getSnId().':'.$this->gateway->getSKey());
+        $this->options = array(
+            'headers' => array(
+                 'Authorization' => $authId,
+                 'Content-Type' => 'application/json',
+                 'Accept' => 'application/json',
+            ),
+        );
     }
 
     public function testRefund()
     {
-
-         $this->options = array(
-            'transactionReference' => 'SAOMPLE',
-        );
+        $this->options['transactionReference'] = '116085070';
 
         $request = $this->gateway->refund($this->options);
         
         $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\RefundRequest', $request);
-        $this->assertEquals('SAOMPLE', $request->getTransactionReference());
+        $this->assertEquals('116085070', $request->getTransactionReference());
         $this->assertEquals('0', $request->getAmountInteger());
         $response = $request->send();
         $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\Response', $response);
@@ -59,15 +63,8 @@ class GatewayTest extends PHPUnit_Framework_TestCase
         $cardArray['billingPostcode']='87787';
         $cardArray['billingState']="DC";
 
-        $this->options = array(
-            'card' => $cardArray,
-            'amount' => '12.00',
-            'headers' => array(
-                 'Authorization' => $authId,
-                 'Content-Type' => 'application/json',
-                 'Accept' => 'application/json',
-            ),
-        );
+        $this->options['card'] = $cardArray;
+        $this->options['amount'] = '12.00';
 
         $request = $this->gateway->purchase($this->options);
         
@@ -95,15 +92,8 @@ class GatewayTest extends PHPUnit_Framework_TestCase
         $cardArray['billingPostcode']='87787';
         $cardArray['billingState']="DC";
 
-        $this->options = array(
-            'card' => $cardArray,
-            'amount' => '12.00',
-            'headers' => array(
-                 'Authorization' => $authId,
-                 'Content-Type' => 'application/json',
-                 'Accept' => 'application/json',
-            ),
-        );
+        $this->options['card'] = $cardArray;
+        $this->options['amount'] = '12.00';
 
         $request = $this->gateway->authorize($this->options);
         
@@ -117,9 +107,7 @@ class GatewayTest extends PHPUnit_Framework_TestCase
 
     public function testCapture()
     {
-        $this->options = array(
-            'transactionReference' => '116084834',
-        );
+        $this->options['transactionReference'] = '116084834';
 
         $request = $this->gateway->capture($this->options);
         
