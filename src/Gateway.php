@@ -2,7 +2,7 @@
 
 namespace Omnipay\Worldpaysecurenet;
 
-use Http\Adapter\Guzzle6\Client;
+use Guzzle\Http\Client;
 use Omnipay\Common\AbstractGateway;
 
 /**
@@ -233,11 +233,12 @@ class Gateway extends AbstractGateway
 
     protected function getDefaultHttpClient()
     {
-        $guzzleClient = Client::createWithConfig([
+        $guzzleClient = new Client;
+        $guzzleClient->setConfig([
             'curl.options' => [
                 CURLOPT_SSLVERSION => 6
             ]
         ]);
-        return new \Omnipay\Common\Http\Client($guzzleClient);
+        return $guzzleClient;
     }
 }
