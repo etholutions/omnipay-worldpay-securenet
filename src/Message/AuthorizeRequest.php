@@ -11,6 +11,6 @@ class AuthorizeRequest extends PurchaseRequest
      */
     public function getEndpoint()
     {
-        return parent::getEndPoint().'Payments/Authorize';
+        return AbstractRequest::getEndPoint().'Payments/Authorize';
     }
 }

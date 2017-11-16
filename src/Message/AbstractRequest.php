@@ -1,22 +1,24 @@
 <?php
 namespace Omnipay\Worldpaysecurenet\Message;
+
 use Guzzle\Http\Message\Response as HttpResponse;
-use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\AbstractRequest as OmnipayAbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
-abstract class AbstractRequest extends AbstractRequest
+
+abstract class AbstractRequest extends OmnipayAbstractRequest
 {
     /**
      * @var string  API endpoint base to connect to
      */
     protected $testEndpoint = 'https://gwapi.demo.securenet.com/api/';
     protected $liveEndpoint = 'https://gwapi.securenet.com/api/';
+
+    abstract public function getData();
     /**
      * Method required to override for getting the specific request endpoint
      *
      * @return string
      */
-    
-
     public function getEndpoint()
     {
         return ($this->getTestMode()) ? $this->testEndpoint : $this->liveEndpoint;
@@ -67,6 +69,97 @@ abstract class AbstractRequest extends AbstractRequest
         return $this->setParameter('skey', $value);
     }
 
+     /**
+     * Gets the Developer ID
+     * @return String
+     */
+    public function getDeveloperId(){
+        $devApp = $this->getParameter('developerApplication');
+        if(isset($devApp['developerId'])){
+            return $devApp['developerId'];
+        }
+        return null;
+    }
+
+    /**
+     * Sets the Developer ID
+     * @params String
+     */
+    public function setDeveloperId($value){
+        $existing = $this->getParameter('developerApplication');
+        if(!$existing){
+            $existing = [];
+        }
+        $existing['developerId'] = $value;
+        return $this->setParameter('developerApplication', $existing);
+    }
+
+    /**
+     * Gets the Developer Version
+     * @return String
+     */
+    public function getDeveloperVersion(){
+        $devApp = $this->getParameter('developerApplication');
+        if(isset($devApp['version'])){
+            return $devApp['version'];
+        }
+        return null;
+    }
+
+    /**
+     * Sets the Developer Version
+     * @params String
+     */
+    public function setDeveloperVersion($value){
+        $existing = $this->getParameter('developerApplication');
+        if(!$existing){
+            $existing = [];
+        }
+        $existing['version'] = $value;
+        return $this->setParameter('developerApplication', $existing);
+    }
+
+    /**
+     * Gets the Developer Application
+     *
+     * Format:
+     * [
+     *     'developerId' => 
+     *     'version' => 
+     * ]
+     * @return Array 
+     */
+    public function getDeveloperApplication(){
+        return array(
+            'developerId' => $this->getDeveloperId(),
+            'version' => $this->getDeveloperVersion()
+        );
+    }
+
+    /**
+     * Sets the Developer Application parameter
+     *
+     * Format:
+     * [
+     *     'developerId' => 
+     *     'version' => 
+     * ]
+     * @param Array $value
+     */
+    public function setDeveloperApplication($value){
+        $idSet = false;
+        if(isset($value['developerId'])){
+            $idSet = $this->setDeveloperId($value['developerId']);
+        }
+
+        $versionSet = false;
+        if(isset($value['version'])){
+            $versionSet = $this->setDeveloperVersion($value['version']);
+        }
+
+        return ($idSet or $versionSet);
+    }
+
     /**
      * Returns the minimum required data that is required to be passed along with every single request.
      * @return Array 
@@ -95,15 +188,14 @@ abstract class AbstractRequest extends AbstractRequest
      */
     public function sendRequest($data)
     {
-
-        $authId = "Basic ".base64_encode($this->getSnId().':'.$this->getSKey());
-
         $httpRequest = $this->httpClient->createRequest(
             $this->getHttpMethod(),
             $this->getEndpoint(),
             [],
             json_encode($data)
         );
+
+        $authId = "Basic ".base64_encode($this->getSnId().':'.$this->getSKey());
         $httpRequest = $httpRequest
             ->withHeader('Authorization', $authId)
             ->withHeader('Content-type', 'application/json')

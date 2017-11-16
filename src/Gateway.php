@@ -143,6 +143,47 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Gets the Developer Application
+     *
+     * Format:
+     * [
+     *     'developerId' => 
+     *     'version' => 
+     * ]
+     * @return Array 
+     */
+    public function getDeveloperApplication(){
+        return array(
+            'developerId' => $this->getDeveloperId(),
+            'version' => $this->getDeveloperVersion()
+        );
+    }
+
+    /**
+     * Sets the Developer Application parameter
+     *
+     * Format:
+     * [
+     *     'developerId' => 
+     *     'version' => 
+     * ]
+     * @param Array $value
+     */
+    public function setDeveloperApplication($value){
+        $idSet = false;
+        if(isset($value['developerId'])){
+            $idSet = $this->setDeveloperId($value['developerId']);
+        }
+
+        $versionSet = false;
+        if(isset($value['version'])){
+            $versionSet = $this->setDeveloperVersion($value['version']);
+        }
+
+        return ($idSet or $versionSet);
+    }
+
+    /**
      * Create purchase request
      *
      * @param array $parameters
@@ -197,8 +238,6 @@ class Gateway extends AbstractGateway
                 CURLOPT_SSLVERSION => 6
             ]
         ]);
-
-
         return new \Omnipay\Common\Http\Client($guzzleClient);
     }
 }
