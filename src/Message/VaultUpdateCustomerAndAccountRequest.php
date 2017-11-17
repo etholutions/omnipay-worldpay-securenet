@@ -3,20 +3,35 @@ namespace Omnipay\Worldpaysecurenet\Message;
 /**
  * WorldPay Purchase Request
  */
-class PurchaseRequest extends AbstractRequest
+class VaultUpdateCustomerAndAccountRequest extends VaultAbstractRequest
 {
     /**
-     * Set up the base data for a purchase request
+     * Set up the refund-specific data
      *
-     * @return mixed[]
+     * @return mixed
      */
     public function getData()
     {
-        $this->validate('amount', 'card');
+        $this->validate('customerId', 'paymentMethodId');
+
         $data = array();
+        
+        if($this->getPrimary()){
+            $data['primary'] = $this->getPrimary();
+        }
+
+        if($this->getCustomerId()){
+            $data['customerId'] = $this->getCustomerId();    
+        }
+
+        if($this->getPaymentMethodId()){
+            $data['paymentMethodId'] = $this->getPaymentMethodId();    
+        }
+        
+        $data['firstName'] = $this->getFirstName();
+        $data['lastName'] = $this->getLastName();
 
         $card = $this->getCard();
-        $data['amount'] = $this->getAmount();
         if($card){
             $data["card"] = array(
                 "number" => $card->getNumber(),
@@ -40,6 +55,13 @@ class PurchaseRequest extends AbstractRequest
      */
     public function getEndpoint()
     {
-        return parent::getEndPoint().'Payments/Charge';
+        return parent::getEndPoint()."Customers/".$this->getCustomerId()."Payments";
+    }
+    /**
+     * @return string
+     */
+    public function getHttpMethod()
+    {
+        return 'PUT';
     }
 }

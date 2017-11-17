@@ -17,21 +17,12 @@ class GatewayTest extends PHPUnit_Framework_TestCase
         $this->gateway->initialize(array(
             'testMode' => true,
         ));
-        $this->gateway->setSKey('');
-        $this->gateway->setSnId('');
+        $this->gateway->setSnId('8011016');
+        $this->gateway->setSKey('IP7bSH068Ij3');
         $this->gateway->setDeveloperApplication([
             'developerId' => '12345678',
             'version' => '1.2'
         ]);
-
-        $authId = "Basic ".base64_encode($this->gateway->getSnId().':'.$this->gateway->getSKey());
-        $this->options = array(
-            'headers' => array(
-                 'Authorization' => $authId,
-                 'Content-Type' => 'application/json',
-                 'Accept' => 'application/json',
-            ),
-        );
     }
 
     public function testRefund()
@@ -45,7 +36,6 @@ class GatewayTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('0', $request->getAmountInteger());
         $response = $request->send();
         $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\Response', $response);
-        var_dump($response->getData());
     }
 
     public function testPurchase()
@@ -73,7 +63,6 @@ class GatewayTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('1200', $request->getAmountInteger());
         $response = $request->send();
         $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\Response', $response);
-        var_dump($response->getData());
     }
 
     public function testAuthorize()
@@ -102,7 +91,6 @@ class GatewayTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('1200', $request->getAmountInteger());
         $response = $request->send();
         $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\Response', $response);
-        var_dump($response->getData());
     }
 
     public function testCapture()
@@ -114,6 +102,49 @@ class GatewayTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\CaptureRequest', $request);
         $response = $request->send();
         $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\Response', $response);
-        var_dump($response->getData());
     }
+
+    public function testCreateCustomer(){
+        $this->options['firstName'] = 'Sasidhar';
+        $this->options['lastName'] = 'Sista';
+
+        $request = $this->gateway->createCustomer($this->options);
+        $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\VaultCreateCustomerRequest', $request);
+        $response = $request->send();
+        $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\VaultResponse', $response);
+    }
+
+    public function testUpdateCustomer(){
+        $this->options['customerId'] = '5000017';
+        $this->options['firstName'] = 'Partha';
+
+        $request = $this->gateway->updateCustomer($this->options);
+        $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\VaultUpdateCustomerRequest', $request);
+        $response = $request->send();
+        $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\VaultResponse', $response);
+
+    }
+
+    public function testChargeAndCreateCustomerAndAccount(){
+        $this->options['addToVault'] = true;
+        $this->options['amount'] = '12.00';
+        $cardArray = [];
+        $cardArray['firstName'] = "Jon";
+        $cardArray['lastName'] = "Mesal";
+        $cardArray['number'] = '4444333322221111';
+        $cardArray['expiryMonth'] = "12";
+        $cardArray['expiryYear'] = "2019";
+        $cardArray['billingAddress1']="15202 Lakeview";
+        $cardArray['billingAddress2']="Circle";
+        $cardArray['billingCity']="Washington, D.C.";
+        $cardArray['billingPostcode']='87787';
+        $cardArray['billingState']="DC";
+        $this->options['card'] = $cardArray;
+
+        $request = $this->gateway->chargeAndCreateCustomerAndAccount($this->options);
+        $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\VaultChargeAndCreateCustomerAndAccountRequest', $request);
+        $response = $request->send();
+        $this->assertInstanceOf('Omnipay\Worldpaysecurenet\Message\VaultResponse', $response);
+    }
+
 }
