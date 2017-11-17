@@ -69,6 +69,22 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         return $this->setParameter('skey', $value);
     }
 
+    /**
+     * Set Public Key
+     * @param String $value You will receive it via email during the worldpay setup process or generate it from the terminal you have access to.
+     */
+    public function setPublicKey($value){
+        return $this->setParameter('publicKey', $value);
+    }
+
+    /**
+     * Get Public Key
+     * @return String 
+     */
+    public function getPublicKey(){
+        return $this->getParameter('publicKey');
+    }
+
      /**
      * Gets the Developer ID
      * @return String
@@ -202,11 +218,12 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
             json_encode($data)
         );
 
-        $authId = "Basic ".base64_encode($this->getSnId().':'.$this->getSKey());
+        $baseData = $this->getBaseData();
         $httpRequest = $httpRequest
-            ->setHeader('Authorization', $authId)
-            ->setHeader('Content-type', 'application/json')
-            ->setHeader('Accept', 'application/json');
+            ->setHeader('Authorization', $baseData['headers']['Authorization'])
+            ->setHeader('Content-Type', $baseData['headers']['Content-Type'])
+            ->setHeader('Accept', $baseData['headers']['Accept'])
+            ->setHeader('origin', isset($data['headers']['origin'])?$data['headers']['origin']:'');
         $httpResponse = $httpRequest->send();
         return $httpResponse;
     }
