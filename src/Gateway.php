@@ -339,7 +339,27 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultChargeAndCreateCustomerAndAccountRequest', $parameters);
     }
 
+    /**
+     * Creates token for future payments
+     * @param  array  $parameters 
+     * @return \Omnipay\Worldpaysecurenet\Message\CreateCardTokenRequest             
+     */
+    public function tokenizeCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\CreateCardTokenRequest', $parameters);
+    }
 
+    /**
+     * Create purchase request from token
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\PurchaseWithTokenRequest
+     */
+    public function purchaseWithToken(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\PurchaseWithTokenRequest', $parameters);
+    }
 
     protected function getDefaultHttpClient()
     {
