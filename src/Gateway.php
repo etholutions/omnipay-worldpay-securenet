@@ -231,6 +231,116 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\CaptureRequest', $parameters);
     }
 
+    /**
+     * Create Customer request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultCreateCustomerRequest
+     */
+    public function createCustomer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultCreateCustomerRequest', $parameters);
+    }
+
+    /**
+     * Update Customer request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultUpdateCustomerRequest
+     */
+    public function updateCustomer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultUpdateCustomerRequest', $parameters);
+    }
+
+    /**
+     * Delete Customer request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultDeleteCustomerRequest
+     */
+    public function deleteCustomer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultDeleteCustomerRequest', $parameters);
+    }
+
+    /**
+     * Create Account request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultCreateAccountRequest
+     */
+    public function createAccount(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultCreateAccountRequest', $parameters);
+    }
+
+    /**
+     * Update Account request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultUpdateAccountRequest
+     */
+    public function updateAccount(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultUpdateAccountRequest', $parameters);
+    }
+
+    /**
+     * Delete Account request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultDeleteAccountRequest
+     */
+    public function deleteAccount(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultDeleteAccountRequest', $parameters);
+    }
+
+    /**
+     * Create Customer and Account request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultCreateCustomerAndAccountRequest
+     */
+    public function createCustomerAndAccount(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultCreateCustomerAndAccountRequest', $parameters);
+    }
+
+    /**
+     * Update Customer and Account request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultUpdateCustomerAndAccountRequest
+     */
+    public function updateCustomerAndAccount(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultUpdateCustomerAndAccountRequest', $parameters);
+    }
+
+    /**
+     * Charge and Create Account and Customer request
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Worldpaysecurenet\Message\VaultChargeAndCreateCustomerAndAccountRequest
+     */
+    public function chargeAndCreateCustomerAndAccount(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultChargeAndCreateCustomerAndAccountRequest', $parameters);
+    }
+
+
+
     protected function getDefaultHttpClient()
     {
         $guzzleClient = new Client;
