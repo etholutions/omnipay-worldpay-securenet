@@ -175,6 +175,13 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         $data['extendedInformation'] = array(
             'typeOfGoods' => 'DIGITAL',
         );
+
+        $authId = "Basic ".base64_encode($this->getSnId().':'.$this->getSKey());
+        $data['headers'] = array(
+             'Authorization' => $authId,
+             'Content-Type' => 'application/json',
+             'Accept' => 'application/json',
+        );
         
         return $data;
     }

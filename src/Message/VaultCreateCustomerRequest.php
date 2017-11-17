@@ -21,8 +21,8 @@ class VaultCreateCustomerRequest extends VaultAbstractRequest
             $data['customerId'] = $this->getCustomerId();    
         }
 
-        $data['firstName'] = $this->getFirstName();
-        $data['lastName'] = $this->getLastName();
+        $data['firstName'] = $this->getParameter('firstName');
+        $data['lastName'] = $this->getParameter('lastName');
 
         $data["address"] = array(
             "line1" => $this->getBillingAddress1(),
@@ -30,7 +30,7 @@ class VaultCreateCustomerRequest extends VaultAbstractRequest
             "state" => $this->getBillingState(),
             "zip" => $this->getBillingPostcode()
         );
-        
+
         return array_merge($this->getBaseData(), $data);
     }
     /**
