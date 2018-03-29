@@ -192,6 +192,9 @@ class Gateway extends AbstractGateway
      */
     public function purchase(array $parameters = array())
     {
+        if($parameters['card']==null && $parameters['cardReference']!=null){
+            return $this->purchaseWithToken($parameters);
+        }
         return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\PurchaseRequest', $parameters);
     }
 
