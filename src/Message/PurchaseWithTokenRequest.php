@@ -20,6 +20,24 @@ class PurchaseWithTokenRequest extends AbstractRequest
     public function getAddToVault(){
         return $this->getParameter('addToVault');
     }
+
+    /**
+     * Sets the customer ID 
+     * @param String CustomerId
+     */
+    public function setCustomerId(String $customerId)
+    {
+        $this->setParameter('customerId', $customerId);
+    }
+
+    /**
+     * Gets the customerId
+     * @return String 
+     */
+    public function getCustomerId()
+    {
+        return $this->getParameter('customerId');
+    }
     
     /**
      * Set up the base data for a purchase request
@@ -29,16 +47,15 @@ class PurchaseWithTokenRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('amount', 'cardReference', 'publicKey');
+        
         $data = array();
-
+        $data['publicKey'] = $this->getPublicKey();
         $data['amount'] = $this->getAmount();
-        $data['customerId'] = $this->getCustomerId();
-
         $data['paymentVaultToken'] = array(
+            "customerId" => $this->getCustomerId(),
             "paymentMethodId" => $this->getCardReference(),
             "publicKey" => $this->getPublicKey()
         );
-
         $data['addToVault'] = $this->getAddToVault();
         
         return array_merge($this->getBaseData(), $data);
