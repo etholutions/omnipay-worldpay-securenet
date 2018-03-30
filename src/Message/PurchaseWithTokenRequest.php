@@ -28,13 +28,14 @@ class PurchaseWithTokenRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('amount', 'token', 'publicKey');
+        $this->validate('amount', 'cardReference', 'publicKey');
         $data = array();
 
         $data['amount'] = $this->getAmount();
+        $data['customerId'] = $this->getCustomerId();
 
         $data['paymentVaultToken'] = array(
-            "paymentMethodId" => $this->getToken(),
+            "paymentMethodId" => $this->getCardReference(),
             "publicKey" => $this->getPublicKey()
         );
 
