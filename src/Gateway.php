@@ -305,7 +305,7 @@ class Gateway extends AbstractGateway
      *
      * @return \Omnipay\Worldpaysecurenet\Message\VaultDeleteAccountRequest
      */
-    public function deleteAccount(array $parameters = array())
+    public function deleteCard(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Worldpaysecurenet\Message\VaultDeleteAccountRequest', $parameters);
     }

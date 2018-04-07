@@ -13,12 +13,11 @@ class VaultDeleteAccountRequest extends VaultAbstractRequest
      */
     public function getData()
     {
-        $this->validate('customerId', 'paymentMethodId');
+        $this->validate('customerId', 'cardReference');
 
         $data = array();
         $data['customerId'] = $this->getCustomerId();    
-        $data['paymentMethodId'] = $this->getPaymentMethodId();    
-        
+        $data['paymentMethodId'] = $this->getCardReference();
         return array_merge($this->getBaseData(), $data);
     }
     /**
@@ -26,7 +25,7 @@ class VaultDeleteAccountRequest extends VaultAbstractRequest
      */
     public function getEndpoint()
     {
-        return parent::getEndPoint()."Customers/".$this->getCustomerId()."/PaymentMethod/".$this->getPaymentMethodId();
+        return parent::getEndPoint()."Customers/".$this->getCustomerId()."/PaymentMethod/".$this->getCardReference();
     }
 
     /**
